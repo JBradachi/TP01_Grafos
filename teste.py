@@ -10,6 +10,7 @@ for line in nx.generate_adjlist(G):
 nx.write_edgelist(G, path="grid.edgelist", delimiter=":")
 # read edgelist from grid.edgelist
 H = nx.read_edgelist(path="grid.edgelist", delimiter=":")
+nx.write_graphml(G, path="grafoTeste3.graphml")
 
 pos = nx.spring_layout(H, seed=200)
 nx.draw(H, pos)

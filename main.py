@@ -43,9 +43,6 @@ while(1):
     elif numMenu == 5:
         os.system('clear')
         break
-
-
-# mostra grafo na tela bonitinho 
-#pos = nx.spring_layout(G, seed=200)
-#nx.draw(G, pos)
-#plt.show()
+    
+    # Função que gera arquivo graphml
+    # nx.write_graphml(G, path="<nomeDoArquivo>.graphml")

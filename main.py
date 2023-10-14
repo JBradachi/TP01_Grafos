@@ -9,11 +9,21 @@ nomeDoArquivo = nomeDoArquivo+".graphml"
 # lendo o arquivo hml
 G = nx.read_graphml(path=nomeDoArquivo)
 
-while(1):
+def menu():
     os.system('clear')
     print("="*50)
-    print("Escolha uma das opções abaixo: \n1 - Mostrar grafo na tela\n2 - Exibir a ordem do grafo\n3 - Exibir o tamanho do grafo\n4 - Inserir outro grafo\n5 - Sair do programa")
+    print("Escolha uma das opções abaixo: \n1 - Mostrar grafo na tela\n2 - Exibir a ordem do grafo\n3 - Exibir o tamanho do grafo")
+    print("4 - Determinar grau de um vértice\n5- Retornar a sequência de graus do grafo\n6- Determinar a excentricidade de um vertice")
+    print("7 - Determinar o raio do grafo\n8- Determinar o diâmetro do grafo\n9- Determinar o centro do grafo")
+    print("10 - Fazer a busca em largura\n11- Determinar distância e caminho mínimo\n12- Determinar centralidade")
+    print("13 - Inserir outro grafo\n14 - Sair do programa")
     numMenu = int(input(">>> "))
+    return numMenu
+
+
+while(1):
+    
+    numMenu = menu()
 
     if numMenu == 1:
         # mostra grafo na tela bonitinho 
@@ -33,14 +43,14 @@ while(1):
         print(f"Ordem do grafo: {ordem}\n")
         pause = str(input("Pressione enter para prosseguir"))
         
-    elif numMenu == 4:
+    elif numMenu == 13:
         nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
         nomeDoArquivo = nomeDoArquivo+".graphml"
         
         # lendo o arquivo hml
         G = nx.read_graphml(path=nomeDoArquivo)
         
-    elif numMenu == 5:
+    elif numMenu == 14:
         os.system('clear')
         break
     

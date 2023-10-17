@@ -97,6 +97,11 @@ try:
             pause = str(input("\nPressione enter para prosseguir"))
             
         elif numMenu == 12:
+            centro = nx.center(G)
+            print("Os vertices do centro são: ", end=' ')
+            for a in centro:
+                print(a, end = "; ")
+            print('\n')
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 13:

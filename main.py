@@ -6,6 +6,28 @@ import networkx as nx
 nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
 nomeDoArquivo = nomeDoArquivo+".graphml"
 
+def BL(G,v):
+    queue = []
+    color = G.number_of_nodes()
+
+    R = nx.Graph()
+    R.add_node(v)
+    marcados = []
+    marcados.append(v)
+    queue.append(v)
+    while (queue):
+        v = queue.pop(0)
+        for vizinho in G.neighbors(v):
+            if vizinho not in marcados:
+                R.add_edge(v,vizinho)
+                queue.append(vizinho)
+                marcados.append(vizinho)
+            else:
+                if not G.has_edge(v,vizinho):
+                    print(f"nao existe a aresta de {v} a {vizinho}")
+    print(R)
+    nx.draw(R, with_labels=1)
+    plt.show()
 
 # lendo o arquivo hml
 try:
@@ -80,6 +102,8 @@ try:
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 10:
+            source = str(input("Digite o vertice inicial do grafo:"))
+            BL(G,source)
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 11:

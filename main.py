@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import os 
 import networkx as nx
 
+os.system('clear')
 nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
 nomeDoArquivo = nomeDoArquivo+".graphml"
 

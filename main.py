@@ -10,10 +10,10 @@ nomeDoArquivo = nomeDoArquivo+".graphml"
 
 # lendo o arquivo hml
 try:
-    G = nx.read_graphml(path=nomeDoArquivo)
+    G = nx.read_graphml(path=nomeDoArquivo, node_type=int, edge_key_type=int)
+    
 
-
-
+    
 
     def menu():
         os.system('clear')
@@ -115,6 +115,9 @@ try:
         elif numMenu == 14:
             os.system('clear')
             break
+        elif numMenu == 15:
+            print(f"\nO grafo é ponderado? {nx.is_weighted(G)}\n")
+            pause = str(input("Pressione enter para prosseguir"))
         
         # Função que gera arquivo graphml
         # nx.write_graphml(G, path="<nomeDoArquivo>.graphml")

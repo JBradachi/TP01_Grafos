@@ -2,16 +2,36 @@
 import matplotlib.pyplot as plt
 import os 
 import networkx as nx
+# biblioteca para ler peso dos arquivo graphml
+import xml.etree.ElementTree as ET
 
-os.system('clear')
+def limpar_tela():
+    if os.name == 'nt':  
+        os.system('cls')
+    else:  
+        os.system('clear')
+
+limpar_tela()
 nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
 nomeDoArquivo = nomeDoArquivo+".graphml"
 
 
+
 # lendo o arquivo hml
 try:
-    G = nx.read_graphml(path=nomeDoArquivo)
+    # Ler o arquivo GraphML
+    tree = ET.parse(nomeDoArquivo)
+    root = tree.getroot()
 
+    # Crie um objeto Graph (grafo não direcionado) com o NetworkX
+    G = nx.Graph()
+
+    # Itere sobre as arestas no arquivo XML e adicione-as ao grafo NetworkX com seus pesos
+    for edge in root.findall(".//edge"):
+        source = edge.get('source')
+        target = edge.get('target')
+        weight = float(edge.get('weight'))
+        G.add_edge(source, target, weight=weight)
 
 
 
@@ -33,8 +53,23 @@ try:
 
         if numMenu == 1:
             # mostra grafo na tela 
-            pos = nx.spring_layout(G, seed=200)
-            nx.draw(G, pos)
+            pos = nx.spring_layout(G, seed=500)  # positions for all nodes - seed for reproducibility
+
+
+            # vertice
+            nx.draw_networkx_nodes(G, pos, node_size=700)
+
+            # aresta
+            nx.draw_networkx_edges(G, pos, width=6)
+
+            # vertice labels
+            nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
+            pesos = nx.get_edge_attributes(G, "weight")
+            nx.draw_networkx_edge_labels(G, pos, pesos)
+
+            ax = plt.gca()
+            plt.axis("off")
+            plt.tight_layout()
             plt.show()
             
         elif numMenu == 2:
@@ -124,4 +159,6 @@ try:
             pause = str(input("Pressione enter para prosseguir"))
             
 except FileNotFoundError:
+    print(f"Erro: O arquivo '{nomeDoArquivo}' não foi encontrado.")
+except OSError:
     print(f"Erro: O arquivo '{nomeDoArquivo}' não foi encontrado.")

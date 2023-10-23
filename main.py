@@ -10,12 +10,34 @@ def limpar_tela():
         os.system('cls')
     else:  
         os.system('clear')
+        
+def mostrarGrafo(G):
+    pos = nx.spring_layout(G, seed=500)  # positions for all nodes - seed for reproducibility
+
+    # vertice
+    nx.draw_networkx_nodes(G, pos, node_size=700)
+
+    # aresta
+    nx.draw_networkx_edges(G, pos, width=6)
+
+    # vertice labels
+    nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
+    pesos = nx.get_edge_attributes(G, "weight")
+    nx.draw_networkx_edge_labels(G, pos, pesos)
+
+    ax = plt.gca()
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+
+    
 
 limpar_tela()
 nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
-nomeDoArquivo = nomeDoArquivo+".graphml"
-
-
+# nomeDoArquivo = nomeDoArquivo+".graphml"    mais facil para testar os arquivos
+# nomeDoArquivo = "grafoTeste"+".graphml" 
+# nomeDoArquivo = "gPonderado"+".graphml"
+# nomeDoArquivo = "grid"+".graphml"
 
 # lendo o arquivo hml
 try:
@@ -36,7 +58,8 @@ try:
 
 
     def menu():
-        os.system('clear')
+        limpar_tela()
+        
         print("="*50)
         print("Escolha uma das opções abaixo: \n1 - Mostrar grafo na tela\n2 - Exibir o tamanho do grafo\n3 - Exibir a ordem do grafo")
         print("4 - Determinar grau de um vértice\n5- Retornar a sequência de graus do grafo\n6- Determinar a excentricidade de um vertice")
@@ -53,24 +76,7 @@ try:
 
         if numMenu == 1:
             # mostra grafo na tela 
-            pos = nx.spring_layout(G, seed=500)  # positions for all nodes - seed for reproducibility
-
-
-            # vertice
-            nx.draw_networkx_nodes(G, pos, node_size=700)
-
-            # aresta
-            nx.draw_networkx_edges(G, pos, width=6)
-
-            # vertice labels
-            nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
-            pesos = nx.get_edge_attributes(G, "weight")
-            nx.draw_networkx_edge_labels(G, pos, pesos)
-
-            ax = plt.gca()
-            plt.axis("off")
-            plt.tight_layout()
-            plt.show()
+            mostrarGrafo(G)
             
         elif numMenu == 2:
             # Tamanho do grafo
@@ -103,16 +109,32 @@ try:
                 print(f"Grau do vertice {g[0]}: {g[1]}")
             pause = str(input("\nPressione enter para prosseguir"))
 
-        elif numMenu == 6:
-            pause = str(input("Pressione enter para prosseguir"))
+        elif numMenu == 6: #determinar a excentricidade de um vertice 
+        
+            vertex = str(input(f"Insira o numero do vertice [0 até {nx.number_of_nodes(G)-1}] >>>  "))
+            
+            excentricidade = nx.eccentricity(G, vertex, weight="weight")
+            print(f"A excentricidade do vértice {vertex} é {excentricidade}")
 
+            pause = str(input("\nPressione enter para prosseguir"))
+            
+            
         elif numMenu == 7:
-            pause = str(input("Pressione enter para prosseguir")) 
+            # Calcular o raio do grafo
+            radius = nx.radius(G, weight="weight")
+
+            # Exibir o raio do grafo
+            print(f"O raio do grafo é {radius}")
+            pause = str(input("\nPressione enter para prosseguir"))
 
         elif numMenu == 8:
+            diametro = nx.diameter(G, weight="weight")
+            print(f"O diâmetro do grafo {diametro}")
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 9:
+            centro = nx.center(G, weight="weight")
+            print(f"O o centro do grafo é {centro}")
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 10:
@@ -148,7 +170,7 @@ try:
             G = nx.read_graphml(path=nomeDoArquivo)
             
         elif numMenu == 14:
-            os.system('clear')
+            limpar_tela()
             break
         
         # Função que gera arquivo graphml
@@ -157,6 +179,8 @@ try:
         else:
             print("Opção inválida!")
             pause = str(input("Pressione enter para prosseguir"))
+        # mostrarGrafo(G)
+        
             
 except FileNotFoundError:
     print(f"Erro: O arquivo '{nomeDoArquivo}' não foi encontrado.")

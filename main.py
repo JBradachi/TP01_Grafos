@@ -30,32 +30,8 @@ def mostrarGrafo(G):
     plt.tight_layout()
     plt.show()
 
-    
 
-limpar_tela()
-nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
-# nomeDoArquivo = nomeDoArquivo+".graphml"    mais facil para testar os arquivos
-# nomeDoArquivo = "grafoTeste"+".graphml" 
-# nomeDoArquivo = "gPonderado"+".graphml"
-# nomeDoArquivo = "grid"+".graphml"
-
-# lendo o arquivo hml
 try:
-    # Ler o arquivo GraphML
-    tree = ET.parse(nomeDoArquivo)
-    root = tree.getroot()
-
-    # Crie um objeto Graph (grafo não direcionado) com o NetworkX
-    G = nx.Graph()
-
-    # Itere sobre as arestas no arquivo XML e adicione-as ao grafo NetworkX com seus pesos
-    for edge in root.findall(".//edge"):
-        source = edge.get('source')
-        target = edge.get('target')
-        weight = float(edge.get('weight'))
-        G.add_edge(source, target, weight=weight)
-
-
 
     def menu():
         limpar_tela()
@@ -71,7 +47,26 @@ try:
 
 
     while(1):
-        
+
+        # lendo o arquivo hml
+        limpar_tela()
+        nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
+        nomeDoArquivo =  "./entradas/"+nomeDoArquivo+".graphml"    
+
+        # Ler o arquivo GraphML
+        tree = ET.parse(nomeDoArquivo)
+        root = tree.getroot()
+
+        # Crie um objeto Graph (grafo não direcionado) com o NetworkX
+        G = nx.Graph()
+
+        # Itere sobre as arestas no arquivo XML e adicione-as ao grafo NetworkX com seus pesos
+        for edge in root.findall(".//edge"):
+            source = edge.get('source')
+            target = edge.get('target')
+            weight = float(edge.get('weight'))
+            G.add_edge(source, target, weight=weight)
+
         numMenu = menu()
 
         if numMenu == 1:
@@ -110,14 +105,10 @@ try:
             pause = str(input("\nPressione enter para prosseguir"))
 
         elif numMenu == 6: #determinar a excentricidade de um vertice 
-        
             vertex = str(input(f"Insira o numero do vertice [0 até {nx.number_of_nodes(G)-1}] >>>  "))
-            
             excentricidade = nx.eccentricity(G, vertex, weight="weight")
             print(f"A excentricidade do vértice {vertex} é {excentricidade}")
-
             pause = str(input("\nPressione enter para prosseguir"))
-            
             
         elif numMenu == 7:
             # Calcular o raio do grafo
@@ -163,23 +154,15 @@ try:
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 13:
-            nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
-            nomeDoArquivo = nomeDoArquivo+".graphml"
-            
-            # lendo o arquivo hml
-            G = nx.read_graphml(path=nomeDoArquivo)
+            continue
             
         elif numMenu == 14:
             limpar_tela()
             break
-        
-        # Função que gera arquivo graphml
-        # nx.write_graphml(G, path="<nomeDoArquivo>.graphml")
-            
+
         else:
             print("Opção inválida!")
             pause = str(input("Pressione enter para prosseguir"))
-        # mostrarGrafo(G)
         
             
 except FileNotFoundError:

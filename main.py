@@ -11,14 +11,17 @@ def limpar_tela():
     else:  
         os.system('clear')
         
-def mostrarGrafo(G):
+def mostrarGrafo(G, arrows=False):
     pos = nx.spring_layout(G, seed=500)  # positions for all nodes - seed for reproducibility
 
     # vertice
     nx.draw_networkx_nodes(G, pos, node_size=700)
 
     # aresta
-    nx.draw_networkx_edges(G, pos, width=6, arrowstyle="->", arrowsize=40)
+    if (arrows == True):
+        nx.draw_networkx_edges(G, pos, width=6, arrowstyle="->", arrowsize=40)
+    else:
+        nx.draw_networkx_edges(G, pos, width=6)
 
     # vertice labels
     nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
@@ -113,6 +116,10 @@ try:
 
         elif numMenu == 6: #determinar a excentricidade de um vertice 
             vertex = str(input(f"Insira o numero do vertice [0 até {nx.number_of_nodes(G)-1}] >>>  "))
+            if (int(vertex) >= nx.number_of_nodes(G)):
+                print("Vertice invalido!!")
+                pause = str(input("\nPressione enter para prosseguir"))
+                continue
             excentricidade = nx.eccentricity(G, vertex, weight="weight")
             print(f"A excentricidade do vértice {vertex} é {excentricidade}")
             pause = str(input("\nPressione enter para prosseguir"))
@@ -132,14 +139,21 @@ try:
 
         elif numMenu == 9:
             centro = nx.center(G, weight="weight")
-            print(f"O centro do grafo é {centro}")
+            print(f"Os nós que compõe o centro do grafo são ", end="")
+            for c in centro:
+                print(f"{c}; ", end = "")
+            print(end="\n")
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 10:
-            print("Digite o vertice raiz da arvore >>> ", end = "")
+            print(f"Digite o vertice raiz da arvore (entre 0 e {nx.number_of_nodes(G)-1}) >>> ", end = "")
             source = str(input())
+            if (int(source) >= nx.number_of_nodes(G)):
+                print("Vertice inválido!!")
+                pause = str(input("Pressione enter para prosseguir"))
+                continue
             tree = nx.bfs_tree(G, source)
-            mostrarGrafo(tree)
+            mostrarGrafo(tree, arrows=True)
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 11:
@@ -165,6 +179,8 @@ try:
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 13:
+            nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
+            nomeDoArquivo =  "./entradas/"+nomeDoArquivo+".graphml"    
             continue
             
         elif numMenu == 14:

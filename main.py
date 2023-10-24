@@ -18,7 +18,7 @@ def mostrarGrafo(G):
     nx.draw_networkx_nodes(G, pos, node_size=700)
 
     # aresta
-    nx.draw_networkx_edges(G, pos, width=6)
+    nx.draw_networkx_edges(G, pos, width=6, arrowstyle="->", arrowsize=40)
 
     # vertice labels
     nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
@@ -45,14 +45,14 @@ def menu():
 try:
 
    
+    nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
+    nomeDoArquivo =  "./entradas/"+nomeDoArquivo+".graphml"    
 
 
     while(1):
 
         # lendo o arquivo hml
         limpar_tela()
-        nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
-        nomeDoArquivo =  "./entradas/"+nomeDoArquivo+".graphml"    
 
         # Ler o arquivo GraphML
         tree = ET.parse(nomeDoArquivo)
@@ -100,9 +100,15 @@ try:
             # Sequencia de graus do grafo
             graus = G.degree()
             print(f"Sequencia de graus do grafo:")
-
+            somenteGraus = []
             for g in graus:
+                somenteGraus.append(g[1])
                 print(f"Grau do vertice {g[0]}: {g[1]}")
+            print(f"Na notacao comum: d = [", end = "")
+            somenteGraus.sort(reverse=True)
+            for c in range(len(somenteGraus) - 1):
+                print(f"{somenteGraus[c]},", end=" ")
+            print(f"{somenteGraus[len(somenteGraus)-1]}]")
             pause = str(input("\nPressione enter para prosseguir"))
 
         elif numMenu == 6: #determinar a excentricidade de um vertice 
@@ -126,10 +132,14 @@ try:
 
         elif numMenu == 9:
             centro = nx.center(G, weight="weight")
-            print(f"O o centro do grafo é {centro}")
+            print(f"O centro do grafo é {centro}")
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 10:
+            print("Digite o vertice raiz da arvore >>> ", end = "")
+            source = str(input())
+            tree = nx.bfs_tree(G, source)
+            mostrarGrafo(tree)
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 11:

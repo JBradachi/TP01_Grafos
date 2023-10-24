@@ -38,9 +38,9 @@ def menu():
         
         print("="*50)
         print("Escolha uma das opções abaixo: \n1 - Mostrar grafo na tela\n2 - Exibir o tamanho do grafo\n3 - Exibir a ordem do grafo")
-        print("4 - Determinar grau de um vértice\n5- Retornar a sequência de graus do grafo\n6- Determinar a excentricidade de um vertice")
-        print("7 - Determinar o raio do grafo\n8- Determinar o diâmetro do grafo\n9- Determinar o centro do grafo")
-        print("10 - Fazer a busca em largura\n11- Determinar distância e caminho mínimo\n12- Determinar centralidade")
+        print("4 - Determinar grau de um vértice\n5 - Retornar a sequência de graus do grafo\n6 - Determinar a excentricidade de um vertice")
+        print("7 - Determinar o raio do grafo\n8 - Determinar o diâmetro do grafo\n9 - Determinar o centro do grafo")
+        print("10 - Fazer a busca em largura\n11 - Determinar distância e caminho mínimo\n12 - Determinar centralidade")
         print("13 - Inserir outro grafo\n14 - Sair do programa")
         numMenu = int(input(">>> "))
         return numMenu
@@ -92,7 +92,7 @@ try:
         elif numMenu == 4:
             # Grau de um vertice
             vertice = str(input(f"Insira o numero do vertice [0 até {nx.number_of_nodes(G)-1}] >>>  "))
-            if(int(vertice) > nx.number_of_nodes(G)-1):
+            if(int(vertice) > nx.number_of_nodes(G)-1 or int(vertice) < 0):
                 print("Vertice inválido!\n")
             else:
                 grau = G.degree(vertice)
@@ -116,7 +116,7 @@ try:
 
         elif numMenu == 6: #determinar a excentricidade de um vertice 
             vertex = str(input(f"Insira o numero do vertice [0 até {nx.number_of_nodes(G)-1}] >>>  "))
-            if (int(vertex) >= nx.number_of_nodes(G)):
+            if (int(vertex) >= nx.number_of_nodes(G) or int(vertex) < 0):
                 print("Vertice invalido!!")
                 pause = str(input("\nPressione enter para prosseguir"))
                 continue
@@ -148,7 +148,7 @@ try:
         elif numMenu == 10:
             print(f"Digite o vertice raiz da arvore (entre 0 e {nx.number_of_nodes(G)-1}) >>> ", end = "")
             source = str(input())
-            if (int(source) >= nx.number_of_nodes(G)):
+            if (int(source) >= nx.number_of_nodes(G) or int(source) < 0):
                 print("Vertice inválido!!")
                 pause = str(input("Pressione enter para prosseguir"))
                 continue
@@ -159,17 +159,19 @@ try:
         elif numMenu == 11:
             # Determinar distância e caminho minimo
             vertice = str(input(f"Insira o nó de origem [0 até {nx.number_of_nodes(G)-1}] >>>  "))
-            if(int(vertice) > nx.number_of_nodes(G)-1):
+            if(int(vertice) > nx.number_of_nodes(G)-1 or int(vertice) < 0):
                 print("Vertice inválido!\n")
             else:
                 caminho_min = nx.single_source_dijkstra_path(G, vertice)
                 distancia_min = nx.single_source_dijkstra_path_length(G, vertice)
                 for v in caminho_min:
-                    print(f"\nCaminho mínimo do nó {vertice} até o nó {v}: {caminho_min[v]}")
+                    print(f"\nCaminho mínimo do nó {vertice} até o nó {v}: ", end="")
+                    for c in range(len(caminho_min[v]) -1):
+                        print(f"{caminho_min[v][c]} ->", end=" ")
+                    print(f"{caminho_min[v][-1]}")
                     print(f"Distância mínima do nó {vertice} até o nó {v}: {distancia_min[v]}")
 
             pause = str(input("\nPressione enter para prosseguir"))
-            
         elif numMenu == 12:
             centro = nx.center(G)
             print("Os vertices do centro são: ", end=' ')

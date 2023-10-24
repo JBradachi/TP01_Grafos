@@ -30,10 +30,7 @@ def mostrarGrafo(G):
     plt.tight_layout()
     plt.show()
 
-
-try:
-
-    def menu():
+def menu():
         limpar_tela()
         
         print("="*50)
@@ -44,6 +41,10 @@ try:
         print("13 - Inserir outro grafo\n14 - Sair do programa")
         numMenu = int(input(">>> "))
         return numMenu
+
+try:
+
+   
 
 
     while(1):

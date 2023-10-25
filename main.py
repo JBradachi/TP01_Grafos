@@ -153,8 +153,32 @@ try:
                 pause = str(input("Pressione enter para prosseguir"))
                 continue
             tree = nx.bfs_tree(G, source)
+            print("Vertices que nao fazem parte da arvore: ", end = "")
+            count = 1
+            # print(tree.nodes())
+            # print(tree.edges())
+            # print(G.nodes())
+            # print(G.edges())
+            for edge in G.edges():
+                achou = 0
+                for edge2 in tree.edges():
+                    v = [edge[0],edge[1]]
+                    v2 = [edge2[0],edge2[1]]
+                    v.sort()
+                    v2.sort()
+                    if (v[0] == v2[0] and v[1] == v2[1]):
+                        achou = 1
+                        break
+                if not achou:
+                    count = 0
+                    print(f" [{edge[0]}, {edge[1]}];", end = "")
+
+
+            if count:
+                print ("Todos os vertices fazem parte da arvore")
             mostrarGrafo(tree, arrows=True)
-            pause = str(input("Pressione enter para prosseguir"))
+            nx.write_graphml_xml(tree, "./entradas/saidas/saida.graphml")
+            pause = str(input("\nPressione enter para prosseguir"))
 
         elif numMenu == 11:
             # Determinar distância e caminho minimo

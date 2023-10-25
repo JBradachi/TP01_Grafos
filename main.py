@@ -40,8 +40,8 @@ def menu():
         print("Escolha uma das opções abaixo: \n1 - Mostrar grafo na tela\n2 - Exibir o tamanho do grafo\n3 - Exibir a ordem do grafo")
         print("4 - Determinar grau de um vértice\n5 - Retornar a sequência de graus do grafo\n6 - Determinar a excentricidade de um vertice")
         print("7 - Determinar o raio do grafo\n8 - Determinar o diâmetro do grafo\n9 - Determinar o centro do grafo")
-        print("10 - Fazer a busca em largura\n11 - Determinar distância e caminho mínimo\n12 - Determinar centralidade")
-        print("13 - Inserir outro grafo\n14 - Sair do programa")
+        print("10 - Fazer a busca em largura\n11 - Determinar distância e caminho mínimo\n12 - Determinar centralidade\n13 - Retornar os vizinhos de um determinado vertice")
+        print("14 - Inserir outro grafo\n15 - Sair do programa")
         numMenu = int(input(">>> "))
         return numMenu
 
@@ -155,10 +155,6 @@ try:
             tree = nx.bfs_tree(G, source)
             print("Vertices que nao fazem parte da arvore: ", end = "")
             count = 1
-            # print(tree.nodes())
-            # print(tree.edges())
-            # print(G.nodes())
-            # print(G.edges())
             for edge in G.edges():
                 achou = 0
                 for edge2 in tree.edges():
@@ -205,11 +201,24 @@ try:
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 13:
+            vertice = str(input(f"Insira o nó de origem [0 até {nx.number_of_nodes(G)-1}] >>>  "))
+            if G.number_of_nodes() == 1:
+                print("O grafo contém apenas um vértice")
+                pause = str(input("Pressione enter para prosseguir"))
+                continue
+
+            print(f"Vizinhos de {vertice}:", end = "")
+            for vizinho in G.neighbors(vertice):
+                print(f" {vizinho};", end = "")
+            print(end = "\n")
+            pause = str(input("Pressione enter para prosseguir"))
+            continue
+        elif numMenu == 14:
             nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
             nomeDoArquivo =  "./entradas/"+nomeDoArquivo+".graphml"    
             continue
             
-        elif numMenu == 14:
+        elif numMenu == 15:
             limpar_tela()
             break
 

@@ -40,7 +40,7 @@ def menu():
         print("Escolha uma das opções abaixo: \n1 - Mostrar grafo na tela\n2 - Exibir o tamanho do grafo\n3 - Exibir a ordem do grafo")
         print("4 - Determinar grau de um vértice\n5 - Retornar a sequência de graus do grafo\n6 - Determinar a excentricidade de um vertice")
         print("7 - Determinar o raio do grafo\n8 - Determinar o diâmetro do grafo\n9 - Determinar o centro do grafo")
-        print("10 - Fazer a busca em largura\n11 - Determinar distância e caminho mínimo\n12 - Determinar centralidade\n13 - Retornar os vizinhos de um determinado vertice")
+        print("10 - Fazer a busca em largura\n11 - Determinar distância e caminho mínimo\n12 - Determinar centralidade de proximidade de x\n13 - Retornar os vizinhos de um determinado vertice")
         print("14 - Inserir outro grafo\n15 - Sair do programa")
         numMenu = int(input(">>> "))
         return numMenu
@@ -194,11 +194,16 @@ try:
 
             pause = str(input("\nPressione enter para prosseguir"))
         elif numMenu == 12:
-            centro = nx.center(G)
-            print("Os vertices do centro são: ", end=' ')
-            for a in centro:
-                print(a, end = "; ")
-            print('\n')
+            x = str(input(f"Insira o vértice 'x' a ser calculado [0 até {nx.number_of_nodes(G)-1}] >>>  "))
+            if(int(x) > nx.number_of_nodes(G)-1 or int(x) < 0):
+                print("Vertice inválido!\n")
+            else:
+                distancia_min = nx.single_source_dijkstra_path_length(G, x)
+                soma = 0
+                for i in distancia_min:
+                    soma += distancia_min[i]
+                C = ( nx.number_of_nodes(G)-1)/soma
+            print(f"Centralidade de {x} = {C}")
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 13:

@@ -153,7 +153,7 @@ try:
                 pause = str(input("Pressione enter para prosseguir"))
                 continue
             tree = nx.bfs_tree(G, source)
-            print("Vertices que nao fazem parte da arvore: ", end = "")
+            print("Arestas que nao fazem parte da arvore: ", end = "")
             count = 1
             for edge in G.edges():
                 achou = 0
@@ -171,7 +171,8 @@ try:
 
 
             if count:
-                print ("Todos os vertices fazem parte da arvore")
+                print ("Todos as arestas fazem parte da arvore")
+            nx.set_edge_attributes(tree, G.edges())
             mostrarGrafo(tree, arrows=True)
             nx.write_graphml_xml(tree, "./entradas/saidas/saida.graphml")
             pause = str(input("\nPressione enter para prosseguir"))

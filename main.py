@@ -12,19 +12,19 @@ def limpar_tela():
         os.system('clear')
         
 def mostrarGrafo(G, arrows=False):
-    pos = nx.spring_layout(G, seed=500)  # positions for all nodes - seed for reproducibility
+    pos = nx.spring_layout(G, seed=2500)  # positions for all nodes - seed for reproducibility
 
     # vertice
-    nx.draw_networkx_nodes(G, pos, node_size=700)
+    nx.draw_networkx_nodes(G, pos, node_size=300)
 
     # aresta
     if (arrows == True):
-        nx.draw_networkx_edges(G, pos, width=6, arrowstyle="->", arrowsize=40)
+        nx.draw_networkx_edges(G, pos, width=5, arrowstyle="->", arrowsize=20)
     else:
-        nx.draw_networkx_edges(G, pos, width=6)
+        nx.draw_networkx_edges(G, pos, width=5, node_size=200)
 
     # vertice labels
-    nx.draw_networkx_labels(G, pos, font_size=20, font_family="sans-serif")
+    nx.draw_networkx_labels(G, pos, font_size=10, font_family="sans-serif")
     pesos = nx.get_edge_attributes(G, "weight")
     nx.draw_networkx_edge_labels(G, pos, pesos)
 

@@ -53,7 +53,7 @@ try:
     print("="*100)
     print("Bem vindo ao programa de grafos!\n")
     print("RECOMENDAÇÕES: ")
-    print("Dejesa que o grafo seja mostrado depois das funcionalidades? O obejetivo é facilitar a visualização.\n(1 - sim, 0 - não)")
+    print("Deseja que o grafo seja mostrado depois das funcionalidades? O objetivo é facilitar a visualização.\n(1 - sim, 0 - não)")
     print("="*100)
     grafo = int(input(">>> "))
     limpar_tela()

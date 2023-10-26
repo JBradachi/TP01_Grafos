@@ -91,8 +91,8 @@ try:
 
         elif numMenu == 4:
             # Grau de um vertice
-            vertice = str(input(f"Insira o numero do vertice [0 até {nx.number_of_nodes(G)-1}] >>>  "))
-            if(int(vertice) > nx.number_of_nodes(G)-1 or int(vertice) < 0):
+            vertice = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
+            if(vertice not in G.nodes()):
                 print("Vertice inválido!\n")
             else:
                 grau = G.degree(vertice)
@@ -115,17 +115,25 @@ try:
             pause = str(input("\nPressione enter para prosseguir"))
 
         elif numMenu == 6: #determinar a excentricidade de um vertice 
-            vertex = str(input(f"Insira o numero do vertice [0 até {nx.number_of_nodes(G)-1}] >>>  "))
-            if (int(vertex) >= nx.number_of_nodes(G) or int(vertex) < 0):
-                print("Vertice invalido!!")
+            vertice = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
+            if(vertice not in G.nodes()):
+                print("Vertice inválido!\n")
                 pause = str(input("\nPressione enter para prosseguir"))
                 continue
-            excentricidade = nx.eccentricity(G, vertex, weight="weight")
-            print(f"A excentricidade do vértice {vertex} é {excentricidade}")
+            if not nx.is_connected(G):
+                print("grafo é desconexo")
+                pause = str(input("\nPressione enter para prosseguir"))
+                continue
+            excentricidade = nx.eccentricity(G, vertice, weight="weight")
+            print(f"A excentricidade do vértice {vertice} é {excentricidade}")
             pause = str(input("\nPressione enter para prosseguir"))
             
         elif numMenu == 7:
             # Calcular o raio do grafo
+            if not nx.is_connected(G):
+                print("grafo é desconexo")
+                pause = str(input("\nPressione enter para prosseguir"))
+                continue
             radius = nx.radius(G, weight="weight")
 
             # Exibir o raio do grafo
@@ -133,26 +141,33 @@ try:
             pause = str(input("\nPressione enter para prosseguir"))
 
         elif numMenu == 8:
+            if not nx.is_connected(G):
+                print("grafo é desconexo")
+                pause = str(input("\nPressione enter para prosseguir"))
+                continue
             diametro = nx.diameter(G, weight="weight")
             print(f"O diâmetro do grafo {diametro}")
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 9:
+            if not nx.is_connected(G):
+                print("grafo é desconexo")
+                pause = str(input("\nPressione enter para prosseguir"))
+                continue
             centro = nx.center(G, weight="weight")
-            print(f"Os nós que compõe o centro do grafo são ", end="")
+            print(f"Os nós que compõe o centro do grafo são: ", end="")
             for c in centro:
                 print(f"{c}; ", end = "")
             print(end="\n")
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 10:
-            print(f"Digite o vertice raiz da arvore (entre 0 e {nx.number_of_nodes(G)-1}) >>> ", end = "")
-            source = str(input())
-            if (int(source) >= nx.number_of_nodes(G) or int(source) < 0):
-                print("Vertice inválido!!")
-                pause = str(input("Pressione enter para prosseguir"))
+            vertice = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
+            if(vertice not in G.nodes()):
+                print("Vertice inválido!\n")
+                pause = str(input("\nPressione enter para prosseguir"))
                 continue
-            tree = nx.bfs_tree(G, source)
+            tree = nx.bfs_tree(G, vertice)
             print("Arestas que nao fazem parte da arvore: ", end = "")
             count = 1
             for edge in G.edges():
@@ -178,10 +193,11 @@ try:
             pause = str(input("\nPressione enter para prosseguir"))
 
         elif numMenu == 11:
-            # Determinar distância e caminho minimo
-            vertice = str(input(f"Insira o nó de origem [0 até {nx.number_of_nodes(G)-1}] >>>  "))
-            if(int(vertice) > nx.number_of_nodes(G)-1 or int(vertice) < 0):
+            vertice = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
+            if(vertice not in G.nodes()):
                 print("Vertice inválido!\n")
+                pause = str(input("\nPressione enter para prosseguir"))
+                continue
             else:
                 caminho_min = nx.single_source_dijkstra_path(G, vertice)
                 distancia_min = nx.single_source_dijkstra_path_length(G, vertice)
@@ -194,20 +210,30 @@ try:
 
             pause = str(input("\nPressione enter para prosseguir"))
         elif numMenu == 12:
-            x = str(input(f"Insira o vértice 'x' a ser calculado [0 até {nx.number_of_nodes(G)-1}] >>>  "))
-            if(int(x) > nx.number_of_nodes(G)-1 or int(x) < 0):
+            x = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
+            if(x not in G.nodes()):
                 print("Vertice inválido!\n")
+                pause = str(input("\nPressione enter para prosseguir"))
+                continue
             else:
                 distancia_min = nx.single_source_dijkstra_path_length(G, x)
                 soma = 0
                 for i in distancia_min:
                     soma += distancia_min[i]
+                if (soma == 0):
+                    print("A centradidade do vertice {x} é 0")
+                    pause = str(input("Pressione enter para prosseguir"))
+                    continue
                 C = ( nx.number_of_nodes(G)-1)/soma
-            print(f"Centralidade de {x} = {C}")
+                print(f"Centralidade do vértice {x} = {C}")
             pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 13:
-            vertice = str(input(f"Insira o nó de origem [0 até {nx.number_of_nodes(G)-1}] >>>  "))
+            vertice = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
+            if(vertice not in G.nodes()):
+                print("Vertice inválido!\n")
+                pause = str(input("\nPressione enter para prosseguir"))
+                continue
             if G.number_of_nodes() == 1:
                 print("O grafo contém apenas um vértice")
                 pause = str(input("Pressione enter para prosseguir"))

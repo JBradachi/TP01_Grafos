@@ -33,6 +33,10 @@ def mostrarGrafo(G, arrows=False):
     plt.tight_layout()
     plt.show()
 
+def recomendacao(G, grafo, arrows=False):
+    if numMenu != 1 and numMenu != 10 and numMenu != 14 and numMenu != 15 and grafo == 1:
+            mostrarGrafo(G)
+
 def menu():
         limpar_tela()
         
@@ -46,11 +50,18 @@ def menu():
         return numMenu
 
 try:
-
-   
+    print("="*100)
+    print("Bem vindo ao programa de grafos!\n")
+    print("RECOMENDAÇÕES: ")
+    print("Dejesa que o grafo seja mostrado depois das funcionalidades? O obejetivo é facilitar a visualização.\n(1 - sim, 0 - não)")
+    print("="*100)
+    grafo = int(input(">>> "))
+    limpar_tela()
+    
     nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
     nomeDoArquivo =  "./entradas/"+nomeDoArquivo+".graphml"    
-
+    
+    
 
     while(1):
 
@@ -70,7 +81,7 @@ try:
             target = edge.get('target')
             weight = float(edge.get('weight'))
             G.add_edge(source, target, weight=weight)
-
+        
         numMenu = menu()
 
         if numMenu == 1:
@@ -81,13 +92,11 @@ try:
             # Tamanho do grafo
             tamanho = nx.number_of_edges(G)
             print(f"Tamanho do grafo: {tamanho}\n")
-            pause = str(input("Pressione enter para prosseguir"))
             
         elif numMenu == 3:
             # Ordem do grafo
             ordem = nx.number_of_nodes(G)
             print(f"Ordem do grafo: {ordem}\n")
-            pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 4:
             # Grau de um vertice
@@ -97,7 +106,6 @@ try:
             else:
                 grau = G.degree(vertice)
                 print(f"Grau do vertice {vertice}: {grau}\n")
-            pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 5:
             # Sequencia de graus do grafo
@@ -112,7 +120,6 @@ try:
             for c in range(len(somenteGraus) - 1):
                 print(f"{somenteGraus[c]},", end=" ")
             print(f"{somenteGraus[len(somenteGraus)-1]}]")
-            pause = str(input("\nPressione enter para prosseguir"))
 
         elif numMenu == 6: #determinar a excentricidade de um vertice 
             vertice = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
@@ -126,7 +133,6 @@ try:
                 continue
             excentricidade = nx.eccentricity(G, vertice, weight="weight")
             print(f"A excentricidade do vértice {vertice} é {excentricidade}")
-            pause = str(input("\nPressione enter para prosseguir"))
             
         elif numMenu == 7:
             # Calcular o raio do grafo
@@ -138,7 +144,6 @@ try:
 
             # Exibir o raio do grafo
             print(f"O raio do grafo é {radius}")
-            pause = str(input("\nPressione enter para prosseguir"))
 
         elif numMenu == 8:
             if not nx.is_connected(G):
@@ -147,7 +152,6 @@ try:
                 continue
             diametro = nx.diameter(G, weight="weight")
             print(f"O diâmetro do grafo {diametro}")
-            pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 9:
             if not nx.is_connected(G):
@@ -159,7 +163,6 @@ try:
             for c in centro:
                 print(f"{c}; ", end = "")
             print(end="\n")
-            pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 10:
             vertice = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
@@ -190,7 +193,6 @@ try:
             nx.set_edge_attributes(tree, G.edges())
             mostrarGrafo(tree, arrows=True)
             nx.write_graphml_xml(tree, "./entradas/saidas/saida.graphml")
-            pause = str(input("\nPressione enter para prosseguir"))
 
         elif numMenu == 11:
             vertice = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
@@ -208,7 +210,6 @@ try:
                     print(f"{caminho_min[v][-1]}")
                     print(f"Distância mínima do nó {vertice} até o nó {v}: {distancia_min[v]}")
 
-            pause = str(input("\nPressione enter para prosseguir"))
         elif numMenu == 12:
             x = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
             if(x not in G.nodes()):
@@ -226,7 +227,6 @@ try:
                     continue
                 C = ( nx.number_of_nodes(G)-1)/soma
                 print(f"Centralidade do vértice {x} = {C}")
-            pause = str(input("Pressione enter para prosseguir"))
 
         elif numMenu == 13:
             vertice = str(input(f"Escolha um dos vértices a seguir {G.nodes()} >>>  "))
@@ -243,8 +243,8 @@ try:
             for vizinho in G.neighbors(vertice):
                 print(f" {vizinho};", end = "")
             print(end = "\n")
-            pause = str(input("Pressione enter para prosseguir"))
-            continue
+
+            
         elif numMenu == 14:
             nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
             nomeDoArquivo =  "./entradas/"+nomeDoArquivo+".graphml"    
@@ -258,6 +258,7 @@ try:
             print("Opção inválida!")
             pause = str(input("Pressione enter para prosseguir"))
         
+        recomendacao(G, grafo)
             
 except FileNotFoundError:
     print(f"Erro: O arquivo '{nomeDoArquivo}' não foi encontrado.")

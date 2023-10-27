@@ -64,7 +64,8 @@ try:
     
 
     while(1):
-
+        if not grafo:
+            pause = str(input("Pressione enter para prosseguir >>> "))
         # lendo o arquivo hml
         limpar_tela()
 

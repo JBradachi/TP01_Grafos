@@ -34,8 +34,11 @@ def mostrarGrafo(G, arrows=False):
     plt.show()
 
 def recomendacao(G, grafo, arrows=False):
-    if numMenu != 1 and numMenu != 10 and numMenu != 14 and numMenu != 15 and grafo == 1:
-            mostrarGrafo(G)
+    if numMenu != 1 and numMenu != 10 and numMenu != 14 and numMenu != 15:
+        if grafo == 1:
+                mostrarGrafo(G)
+        else:
+            pause = str(input("Pressione enter para prosseguir >>> "))
 
 def menu():
         limpar_tela()
@@ -64,8 +67,6 @@ try:
     
 
     while(1):
-        if not grafo:
-            pause = str(input("Pressione enter para prosseguir >>> "))
         # lendo o arquivo hml
         limpar_tela()
 

@@ -34,7 +34,7 @@ def mostrarGrafo(G, arrows=False):
     plt.show()
 
 def recomendacao(G, grafo, arrows=False):
-    if numMenu != 1 and numMenu != 10 and numMenu != 14 and numMenu != 15:
+    if numMenu != 1 and numMenu != 10 and numMenu != 14 and numMenu != 20:
         if grafo == 1:
                 mostrarGrafo(G)
         else:
@@ -61,7 +61,7 @@ Faça um programa principal que possibilite testar todas as funcionalidades
         print("4 - Determinar grau de um vértice\n5 - Retornar a sequência de graus do grafo\n6 - Determinar a excentricidade de um vertice")
         print("7 - Determinar o raio do grafo\n8 - Determinar o diâmetro do grafo\n9 - Determinar o centro do grafo")
         print("10 - Fazer a busca em largura\n11 - Determinar distância e caminho mínimo\n12 - Determinar centralidade de proximidade de x\n13 - Retornar os vizinhos de um determinado vertice")
-        print("14 - Inserir outro grafo\n15 - Verificar se o grafo possui ciclos\n16 - Encontrar o menor ciclo\n17 - Determinar a árvore geradora mínima\n18 - Determinar um conjunto estável de vértices\n19 - Determinar emparelhamento máximo\n20 - Sair do programa")
+        print("14 - Verificar se o grafo possui ciclos\n15 - Encontrar o menor ciclo\n16 - Determinar a árvore geradora mínima\n17 - Determinar um conjunto estável de vértices\n18 - Determinar emparelhamento máximo\n19 - Inserir outro grafo\n20 - Sair do programa")
         numMenu = int(input(">>> "))
         return numMenu
 
@@ -258,22 +258,30 @@ try:
             for vizinho in G.neighbors(vertice):
                 print(f" {vizinho};", end = "")
             print(end = "\n")
-
-            
         elif numMenu == 14:
+            None
+        elif numMenu == 15:
+            None
+        elif numMenu == 16:
+            None
+        elif numMenu == 17:
+            None
+     
+        elif numMenu == 18:
+            s = nx.max_weight_matching(G)
+            if (len(s) == 0):
+                print("O grafo não possui arestas")
+                pause = str(input("\nPressione enter para prosseguir"))
+                continue
+            print("As arestas que fazem parte do emparelhamento máximo são:")
+            for i in s:
+
+                print("A aresta " + i[0] + " - " + i[1])
+            
+            
+        elif numMenu == 19:
             nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
             nomeDoArquivo =  "./entradas/"+nomeDoArquivo+".graphml"    
-            continue
-            
-        elif numMenu == 15:
-            continue
-        elif numMenu == 16:
-            continue
-        elif numMenu == 17:
-            continue
-        elif numMenu == 18:
-            continue
-        elif numMenu == 19:
             continue
         elif numMenu == 20:
             limpar_tela()

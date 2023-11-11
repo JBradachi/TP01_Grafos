@@ -42,13 +42,26 @@ def recomendacao(G, grafo, arrows=False):
 
 def menu():
         limpar_tela()
+
+        """ 
+- Verificar se um grafo possui ciclo.
+- Encontrar o menor ciclo (considerar a soma dos pesos de cada aresta do ciclo) em
+um grafo não dirigido ponderado (somente com pesos positivos).
+-Determinar a árvore geradora mínima de um grafo.
+- A árvore geradora mínima deve ser gerada no formato GraphML e o seu peso
+total deve ser retornado.
+- Determinar um conjunto estável de vértices de um grafo por meio de uma heurística.
+- Determinar o emparelhamento máximo em um grafo.
+
+Faça um programa principal que possibilite testar todas as funcionalidades
+"""
         
         print("="*50)
         print("Escolha uma das opções abaixo: \n1 - Mostrar grafo na tela\n2 - Exibir o tamanho do grafo\n3 - Exibir a ordem do grafo")
         print("4 - Determinar grau de um vértice\n5 - Retornar a sequência de graus do grafo\n6 - Determinar a excentricidade de um vertice")
         print("7 - Determinar o raio do grafo\n8 - Determinar o diâmetro do grafo\n9 - Determinar o centro do grafo")
         print("10 - Fazer a busca em largura\n11 - Determinar distância e caminho mínimo\n12 - Determinar centralidade de proximidade de x\n13 - Retornar os vizinhos de um determinado vertice")
-        print("14 - Inserir outro grafo\n15 - Sair do programa")
+        print("14 - Inserir outro grafo\n15 - Verificar se o grafo possui ciclos\n16 - Encontrar o menor ciclo\n17 - Determinar a árvore geradora mínima\n18 - Determinar um conjunto estável de vértices\n19 - Determinar emparelhamento máximo\n20 - Sair do programa")
         numMenu = int(input(">>> "))
         return numMenu
 
@@ -253,6 +266,16 @@ try:
             continue
             
         elif numMenu == 15:
+            continue
+        elif numMenu == 16:
+            continue
+        elif numMenu == 17:
+            continue
+        elif numMenu == 18:
+            continue
+        elif numMenu == 19:
+            continue
+        elif numMenu == 20:
             limpar_tela()
             break
 

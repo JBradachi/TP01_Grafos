@@ -265,7 +265,12 @@ try:
         elif numMenu == 16:
             None
         elif numMenu == 17:
-            None
+            conjEstavel = nx.maximal_independent_set(G)
+            print("Possível Conjunto Estável: ")
+            print(f"[", end = "")
+            for c in range(len(conjEstavel) - 1):
+                print(f"{conjEstavel[c]},", end=" ")
+            print(f"{conjEstavel[len(conjEstavel)-1]}]")
      
         elif numMenu == 18:
             s = nx.max_weight_matching(G)

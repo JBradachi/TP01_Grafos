@@ -1,5 +1,5 @@
 all:
-	python3 -u t.py
+	python3 -u main.py
 clean:
 	rm -rf *.o ./exec
 	clear

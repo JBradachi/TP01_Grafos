@@ -44,9 +44,6 @@ def menu():
         limpar_tela()
 
         """ 
-- Verificar se um grafo possui ciclo.
-- Encontrar o menor ciclo (considerar a soma dos pesos de cada aresta do ciclo) em
-um grafo não dirigido ponderado (somente com pesos positivos).
 -Determinar a árvore geradora mínima de um grafo.
 - A árvore geradora mínima deve ser gerada no formato GraphML e o seu peso
 total deve ser retornado.
@@ -259,15 +256,18 @@ try:
                 print(f" {vizinho};", end = "")
             print(end = "\n")
         elif numMenu == 14:
-            print(nx.cycle_basis(G))
-
             temCiclo = len(nx.cycle_basis(G)) > 0 
 
             if temCiclo:
-                print("O grafo possui ciclos")
+                print("\nO grafo possui ciclos\nSão eles: ")
+                for ciclo in nx.cycle_basis(G):
+                    print(ciclo)
+
             else:
-                print("O grafo não possui ciclos")
+                print("\nO grafo não possui ciclos")
                 
+            pause = str(input("\nPressione enter para prosseguir"))
+            continue
         elif numMenu == 15:
             if(len(nx.cycle_basis(G)) > 0):
                 ciclos = nx.cycle_basis(G)
@@ -291,8 +291,10 @@ try:
                     if soma_pesos < menor_soma_pesos:
                         menor_soma_pesos = soma_pesos
                         menor_ciclo = ciclo
-                print("O menor ciclo é o composto pelos nós ", menor_ciclo, " tendo um peso total de ", menor_soma_pesos)
-            else: print("O grafo não possui ciclos")
+                print("\nO menor ciclo é o composto pelos nós ", menor_ciclo, " tendo um peso total de ", menor_soma_pesos)
+            else: print("\nO grafo não possui ciclos")
+            pause = str(input("\nPressione enter para prosseguir"))
+            continue
         elif numMenu == 16:
             None
         elif numMenu == 17:

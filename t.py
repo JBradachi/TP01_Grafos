@@ -97,7 +97,7 @@ try:
                     menor_soma_pesos = soma_pesos
                     menor_ciclo = ciclo
         print("O menor ciclo é o composto pelos nós ", menor_ciclo, " tendo um peso total de ", menor_soma_pesos)
-            
+        break
     else: print("O grafo não possui ciclos")
             
 

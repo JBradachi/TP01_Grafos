@@ -259,9 +259,40 @@ try:
                 print(f" {vizinho};", end = "")
             print(end = "\n")
         elif numMenu == 14:
-            None
+            print(nx.cycle_basis(G))
+
+            temCiclo = len(nx.cycle_basis(G)) > 0 
+
+            if temCiclo:
+                print("O grafo possui ciclos")
+            else:
+                print("O grafo não possui ciclos")
+                
         elif numMenu == 15:
-            None
+            if(len(nx.cycle_basis(G)) > 0):
+                ciclos = nx.cycle_basis(G)
+                # menor_soma recebe infinito para primeira comparação
+                menor_soma_pesos = float("inf")
+
+                for ciclo in ciclos:
+                    soma_pesos = 0
+                    for i in range(len(ciclo)):
+                        vertice_atual = ciclo[i]
+                        proximo_vertice = ciclo[(i + 1) % len(ciclo)]
+
+                        # pega as informações da aresta entre o vertice atual e o proximo vertice
+                        dados_aresta = G.get_edge_data(vertice_atual, proximo_vertice)
+
+                        peso_aresta = dados_aresta['weight']
+
+                        # Adiciona o peso ao total
+                        soma_pesos += peso_aresta
+
+                    if soma_pesos < menor_soma_pesos:
+                        menor_soma_pesos = soma_pesos
+                        menor_ciclo = ciclo
+                print("O menor ciclo é o composto pelos nós ", menor_ciclo, " tendo um peso total de ", menor_soma_pesos)
+            else: print("O grafo não possui ciclos")
         elif numMenu == 16:
             None
         elif numMenu == 17:

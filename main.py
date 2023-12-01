@@ -44,9 +44,6 @@ def menu():
         limpar_tela()
 
         """ 
-- Verificar se um grafo possui ciclo.
-- Encontrar o menor ciclo (considerar a soma dos pesos de cada aresta do ciclo) em
-um grafo não dirigido ponderado (somente com pesos positivos).
 -Determinar a árvore geradora mínima de um grafo.
 - A árvore geradora mínima deve ser gerada no formato GraphML e o seu peso
 total deve ser retornado.
@@ -259,9 +256,45 @@ try:
                 print(f" {vizinho};", end = "")
             print(end = "\n")
         elif numMenu == 14:
-            None
+            temCiclo = len(nx.cycle_basis(G)) > 0 
+
+            if temCiclo:
+                print("\nO grafo possui ciclos\nSão eles: ")
+                for ciclo in nx.cycle_basis(G):
+                    print(ciclo)
+
+            else:
+                print("\nO grafo não possui ciclos")
+                
+            pause = str(input("\nPressione enter para prosseguir"))
+            continue
         elif numMenu == 15:
-            None
+            if(len(nx.cycle_basis(G)) > 0):
+                ciclos = nx.cycle_basis(G)
+                # menor_soma recebe infinito para primeira comparação
+                menor_soma_pesos = float("inf")
+
+                for ciclo in ciclos:
+                    soma_pesos = 0
+                    for i in range(len(ciclo)):
+                        vertice_atual = ciclo[i]
+                        proximo_vertice = ciclo[(i + 1) % len(ciclo)]
+
+                        # pega as informações da aresta entre o vertice atual e o proximo vertice
+                        dados_aresta = G.get_edge_data(vertice_atual, proximo_vertice)
+
+                        peso_aresta = dados_aresta['weight']
+
+                        # Adiciona o peso ao total
+                        soma_pesos += peso_aresta
+
+                    if soma_pesos < menor_soma_pesos:
+                        menor_soma_pesos = soma_pesos
+                        menor_ciclo = ciclo
+                print("\nO menor ciclo é o composto pelos nós ", menor_ciclo, " tendo um peso total de ", menor_soma_pesos)
+            else: print("\nO grafo não possui ciclos")
+            pause = str(input("\nPressione enter para prosseguir"))
+            continue
         elif numMenu == 16:
             None
         elif numMenu == 17:

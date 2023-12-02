@@ -189,7 +189,6 @@ try:
                 continue
             if not nx.is_connected(G):
                 print("grafo é desconexo")
-                pause = str(input("\nPressione enter para prosseguir"))
                 continue
             excentricidade = nx.eccentricity(G, vertice, weight="weight")
             print(f"A excentricidade do vértice {vertice} é {excentricidade}")
@@ -347,23 +346,19 @@ try:
             continue
         
         elif numMenu == 16:
+            
+            if not nx.is_connected(G):
+                print("grafo é desconexo")
+                pause = str(input("\nPressione enter para prosseguir"))
+                continue
+            
             arvoreMinima = prim(G)
             
             verticesDesejados = list(G.nodes())
             arestasDesejadas = list(arvoreMinima.edges())
             
             visualizarGrafoPrim(G, verticesDesejados, arestasDesejadas)
-            
-            # if not nx.is_connected(G):
-            #     print("grafo é desconexo")
-            #     pause = str(input("\nPressione enter para prosseguir"))
-            #     continue
-            # arvoreMinima = prim(G)
-            # print("A árvore geradora mínima é composta pelas arestas: ")
-            # for aresta in arvoreMinima.edges():
-            #     print(f"{aresta[0]} - {aresta[1]}")
-            # print(f"O peso total da árvore geradora mínima é {nx.get_edge_attributes(arvoreMinima, 'weight')}")
-            continue
+            # continue
         
         elif numMenu == 17:
             conjEstavel = nx.maximal_independent_set(G)

@@ -40,6 +40,54 @@ def recomendacao(G, grafo, arrows=False):
         else:
             pause = str(input("Pressione enter para prosseguir >>> "))
 
+def visualizarGrafoPrim(G, verticesDesejados, arestasDesejadas, arrows=False):
+    pos = nx.spring_layout(G, seed=2500)
+
+    # # Inclui apenas vértices e arestas desejados
+    grafoFiltrado = G.subgraph(verticesDesejados + arestasDesejadas)
+
+    # Desenha o grafo
+    nx.draw_networkx_nodes(grafoFiltrado, pos, node_size=300)
+    nx.draw_networkx_edges(grafoFiltrado, pos, edgelist=arestasDesejadas)
+
+     # Adicionar nome dos vertices
+    labels = {v: v for v in verticesDesejados}
+    nx.draw_networkx_labels(grafoFiltrado, pos, labels, font_size=10, font_family="sans-serif")
+    
+    # Adicionar peso
+    edge_labels = {(e[0], e[1]): grafoFiltrado[e[0]][e[1]]['weight'] for e in arestasDesejadas}
+    nx.draw_networkx_edge_labels(grafoFiltrado, pos, edge_labels=edge_labels)
+
+    ax = plt.gca()
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+
+def prim(G):
+    
+    arvoreMinima = nx.Graph()
+    verticeInicial = list(G.nodes())[0]
+    visitados = {verticeInicial}
+
+    while len(visitados) < len(G.nodes()):
+        arestasCandidatas = []
+
+        for verticeVisitado in visitados:
+            for verticeAdjacente in G.neighbors(verticeVisitado):
+
+                if verticeAdjacente not in visitados:
+                    arestasCandidatas.append((verticeVisitado, verticeAdjacente))
+
+        # Seleciona a aresta de menor peso dentre as arestasCandidatas
+        menorAresta = min(arestasCandidatas, key=lambda e: G.edges[e]['weight'])
+
+        arvoreMinima.add_edge(menorAresta[0], menorAresta[1], weight=G.edges[menorAresta]['weight'])
+
+        visitados.add(menorAresta[1])
+
+    return arvoreMinima
+    
+
 def menu():
         limpar_tela()
 
@@ -255,6 +303,7 @@ try:
             for vizinho in G.neighbors(vertice):
                 print(f" {vizinho};", end = "")
             print(end = "\n")
+            
         elif numMenu == 14:
             temCiclo = len(nx.cycle_basis(G)) > 0 
 
@@ -268,6 +317,7 @@ try:
                 
             pause = str(input("\nPressione enter para prosseguir"))
             continue
+        
         elif numMenu == 15:
             if(len(nx.cycle_basis(G)) > 0):
                 ciclos = nx.cycle_basis(G)
@@ -295,8 +345,26 @@ try:
             else: print("\nO grafo não possui ciclos")
             pause = str(input("\nPressione enter para prosseguir"))
             continue
+        
         elif numMenu == 16:
-            None
+            arvoreMinima = prim(G)
+            
+            verticesDesejados = list(G.nodes())
+            arestasDesejadas = list(arvoreMinima.edges())
+            
+            visualizarGrafoPrim(G, verticesDesejados, arestasDesejadas)
+            
+            # if not nx.is_connected(G):
+            #     print("grafo é desconexo")
+            #     pause = str(input("\nPressione enter para prosseguir"))
+            #     continue
+            # arvoreMinima = prim(G)
+            # print("A árvore geradora mínima é composta pelas arestas: ")
+            # for aresta in arvoreMinima.edges():
+            #     print(f"{aresta[0]} - {aresta[1]}")
+            # print(f"O peso total da árvore geradora mínima é {nx.get_edge_attributes(arvoreMinima, 'weight')}")
+            continue
+        
         elif numMenu == 17:
             conjEstavel = nx.maximal_independent_set(G)
             print("Possível Conjunto Estável: ")
@@ -314,13 +382,13 @@ try:
             print("As arestas que fazem parte do emparelhamento máximo são:")
             for i in s:
 
-                print("A aresta " + i[0] + " - " + i[1])
-            
+                print("A aresta " + i[0] + " - " + i[1])    
             
         elif numMenu == 19:
             nomeDoArquivo = str(input("Insira o nome do arquivo (sem a extensão .graphml) >>> "))
             nomeDoArquivo =  "./entradas/"+nomeDoArquivo+".graphml"    
             continue
+        
         elif numMenu == 20:
             limpar_tela()
             break

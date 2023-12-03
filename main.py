@@ -68,6 +68,7 @@ def prim(G):
     arvoreMinima = nx.Graph()
     verticeInicial = list(G.nodes())[0]
     visitados = {verticeInicial}
+    totalPeso = 0
 
     while len(visitados) < len(G.nodes()):
         arestasCandidatas = []
@@ -82,9 +83,12 @@ def prim(G):
         menorAresta = min(arestasCandidatas, key=lambda e: G.edges[e]['weight'])
 
         arvoreMinima.add_edge(menorAresta[0], menorAresta[1], weight=G.edges[menorAresta]['weight'])
+        
+        totalPeso += G.edges[menorAresta]['weight']
 
         visitados.add(menorAresta[1])
 
+    print(f"Peso total: {totalPeso}")
     return arvoreMinima
     
 
